@@ -1,3 +1,4 @@
+import random
 import sys
 from functions import *
 
@@ -9,20 +10,21 @@ def main():
             print("simulatie modus")
             sim_mode = int(input("1 voor verder gaan van vorige situatie, 2 voor opnieuw beginnen: "))
             if sim_mode == 1:
-                simulation_mode(True)
+                simulation_mode(True, stations)
             if sim_mode == 2:
-                simulation_mode(False)
+                simulation_mode(False, stations)
         else:
             print("geen geldige modus")
     else:
-        operating_mode = int(input("1 voor simulatie, 2 voor fiets lenen/terugplaatsen, 3 voor HTML: "))
+        operating_mode = int(input("1 voor simulatie, 2 voor fiets lenen/terugplaatsen, 3 voor HTML,"
+                                   " 4 voor te quitten: "))
         if operating_mode == 1:
             print("simulatie modus")
             sim_mode = int(input("1 voor verder gaan van vorige situatie, 2 voor opnieuw beginnen: "))
             if sim_mode == 1:
-                simulation_mode(True)
+                simulation_mode(False, stations)
             if sim_mode == 2:
-                simulation_mode(False)
+                simulation_mode(True, stations)
         elif operating_mode == 2:
             sim_mode = int(input("1 voor lenen, 2 voor terugplaatsen: "))
             if sim_mode == 1:
@@ -39,6 +41,8 @@ def main():
                     zet_fiets_terug(stations, "transporteur", transporteur_for_non_sim)
         elif operating_mode == 3:
             get_html()
+        elif operating_mode == 4:
+            pass
         else:
             print("geen geldige modus")
 
@@ -189,6 +193,40 @@ def zet_fiets_terug(stations, type_of_user, user):
                     zet_fiets_terug(stations, "transporteur", transporteur_for_non_sim)
             case 3:
                 main()
+
+
+def simulation_mode(restart, stations):
+    user_type = ["gebruiker", "gebruiker", "gebruiker", "gebruiker", "gebruiker", "gebruiker", "transporteur",
+                 "transporteur"]
+    opdracht_type = ["plaats", "leen"]
+    if restart:
+        users = random_user()
+        transporters = random_transporters()
+        try:
+            while True:
+                person = random.choice(user_type)
+                opdracht = random.choice(opdracht_type)
+                handeling_set = set()
+                handeling_set.add(person)
+                handeling_set.add(opdracht)
+                if handeling_set == {"gebruiker", "plaats"}:
+                    current_user = random.choice(users)
+                    current_user.neem_fiets(random.choice(stations))
+                elif handeling_set == {"gebruiker", "leen"}:
+                    current_user = random.choice(users)
+                    current_user.plaats_fiets(random.choice(stations))
+                elif handeling_set == {"transporteur", "plaats"}:
+                    current_user = random.choice(transporters)
+                    current_user.plaats_fietsen(random.choice(stations), random.randint(1, 20))
+                elif handeling_set == {"transporteur", "leen"}:
+                    current_user = random.choice(transporters)
+                    current_user.neem_fietsen(random.choice(stations), random.randint(1, 20))
+                time.sleep(0.5)
+        except KeyboardInterrupt:
+            log.dump_data()
+            main()
+    else:
+        pass
 
 
 user_for_non_sim = Gebruiker(1, "sys", "sys")

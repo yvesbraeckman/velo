@@ -1,5 +1,6 @@
 import random
 import json
+import time
 from classes import *
 
 
@@ -39,7 +40,7 @@ def available_stations(stations, amount_of_stations=5):
     return available
 
 
-def random_user(amount):
+def random_user(amount=55000):
     """
     :param amount: aantal te genereren namen
     :return: Lijst met random namen
@@ -74,6 +75,13 @@ def random_user(amount):
         user_ = Gebruiker(i+1, naam, voornaam)
         users.append(user_)
     return users
+
+
+def random_transporters(amount=100):
+    transporters = []
+    for i in range(amount):
+        transporters.append(Transporteur(i))
+    return transporters
 
 
 def maak_stations():
@@ -113,8 +121,7 @@ def vul_stations(stations, aantal_fietsen=4200):
     return stations
 
 
-def simulation_mode(restart):
-    return None
+
 
 
 def get_html():

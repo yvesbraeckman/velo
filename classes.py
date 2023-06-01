@@ -1,3 +1,6 @@
+import json
+
+
 class Station:
     def __init__(self, sloten, naam, station_id):
         self.station_id = station_id
@@ -77,12 +80,15 @@ class Gebruiker:
                     slot.verwijder_fiets()
                     station.sloten += 1
                     self.heeft_fiets = True
+                    log.neem_fiets_gebruiker(station, self.naam, self.voornaam, self.gebruiker_id, self.fiets.fiets_id)
                 return True
+
         return False
 
     def plaats_fiets(self, station):
         if self.heeft_fiets:
             if station.add_bike(self.fiets):
+                log.plaats_fiets_gebruiker(station, self.naam, self.voornaam, self.gebruiker_id, self.fiets.fiets_id)
                 self.fiets = None
                 self.heeft_fiets = False
                 return True
@@ -109,6 +115,7 @@ class Transporteur:
                 self.heeft_fiets = True
                 if succes == aantal_fietsen:
                     break
+        log.neem_fiets_transporteur(station, aantal_fietsen, self.gebruiker_id)
         print(f"{len(self.fietsen)} fietsen uit {station.naam} gehaald")
 
     def plaats_fietsen(self, station, aantal_fietsen):
@@ -122,10 +129,42 @@ class Transporteur:
                         break
             if len(self.fietsen) == 0:
                 self.heeft_fiets = False
+            log.plaats_fiets_transporteur(station, aantal_fietsen, self.gebruiker_id)
         else:
             print("je hebt geen fiets")
 
 
 class Log:
-    def __init__(self):
-        pass
+    def __init__(self, file):
+        self.file = file
+        self.master_list = []
+
+    def plaats_fiets_transporteur(self, station, aantal_fietsen, transporteur_id):
+        diction = {"type": "transporteur", "actie": "plaatsen", "station": station.naam,
+                   "aantal fietsen": aantal_fietsen, "id": transporteur_id}
+        self.master_list.append(diction)
+
+    def neem_fiets_transporteur(self, station, aantal_fietsen, transporteur_id):
+        diction = {"type": "transporteur", "actie": "lenen", "station": station.naam,
+                   "aantal fietsen": aantal_fietsen, "id": transporteur_id}
+        self.master_list.append(diction)
+
+    def neem_fiets_gebruiker(self, station, achternaam, voornaam, gebruiker_id, fiets_id):
+        diction = {"type": "gebruiker", "actie": "lenen", "station": station.naam, "naam": voornaam,
+                   "achternaam": achternaam, "id": gebruiker_id, "fiets id": fiets_id}
+        self.master_list.append(diction)
+
+    def plaats_fiets_gebruiker(self, station, achternaam, voornaam, gebruiker_id, fiets_id):
+        diction = {"type": "gebruiker", "actie": "plaatsen", "station": station.naam, "naam": voornaam,
+                   "achternaam": achternaam, "id": gebruiker_id, "fiets id": fiets_id}
+        self.master_list.append(diction)
+
+    def dump_data(self):
+        with open(self.file, "w") as file1:
+            json.dump(self.master_list, file1)
+
+    def print_data(self):
+        print(self.master_list)
+
+
+log = Log("logje.json")
