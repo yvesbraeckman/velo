@@ -2,253 +2,53 @@
   {
     "type": "gebruiker",
     "actie": "lenen",
-    "station": "258 Hof van Nauwelaerts",
-    "naam": "Liam",
-    "achternaam": "Kok",
-    "id": 38043
-  },
-  {
-    "type": "gebruiker",
-    "actie": "lenen",
-    "station": "249 Frans de Vriendt",
-    "naam": "Aisha",
-    "achternaam": "Schouten",
-    "id": 1465
-  },
-  {
-    "type": "gebruiker",
-    "actie": "lenen",
-    "station": "304 Campinia",
-    "naam": "Noah",
-    "achternaam": "Martens",
-    "id": 48285
-  },
-  {
-    "type": "transporteur",
-    "actie": "lenen",
-    "station": "257 Hofstade",
-    "aantal fietsen": 1,
-    "id": 41
-  },
-  {
-    "type": "gebruiker",
-    "actie": "lenen",
-    "station": "097 Cuperus",
-    "naam": "Genesis",
-    "achternaam": "Smit",
-    "id": 39051
-  },
-  {
-    "type": "gebruiker",
-    "actie": "lenen",
-    "station": "055 Zonnebloemstraat",
-    "naam": "Avery",
+    "station": "139 Londenstraat",
+    "naam": "Abigail",
     "achternaam": "Hoekstra",
-    "id": 29564
-  },
-  {
-    "type": "transporteur",
-    "actie": "lenen",
-    "station": "332 Valkstraat",
-    "aantal fietsen": 10,
-    "id": 54
+    "id": 30676,
+    "fiets id": 99
   },
   {
     "type": "gebruiker",
     "actie": "lenen",
-    "station": "070 Sint-Andries",
-    "naam": "Luna",
-    "achternaam": "Hermans",
-    "id": 20443
-  },
-  {
-    "type": "transporteur",
-    "actie": "lenen",
-    "station": "271 Middelheim Museum",
-    "aantal fietsen": 3,
-    "id": 26
-  },
-  {
-    "type": "transporteur",
-    "actie": "lenen",
-    "station": "048 De Keyserlei 2",
-    "aantal fietsen": 19,
-    "id": 8
-  },
-  {
-    "type": "gebruiker",
-    "actie": "lenen",
-    "station": "039 Koxplein",
-    "naam": "Skylar",
-    "achternaam": "Peters",
-    "id": 29574
-  },
-  {
-    "type": "gebruiker",
-    "actie": "lenen",
-    "station": "058 Noorderterras",
-    "naam": "Aaliyah",
-    "achternaam": "Postma",
-    "id": 5182
-  },
-  {
-    "type": "transporteur",
-    "actie": "lenen",
-    "station": "251Te Boelaerpark Noord",
-    "aantal fietsen": 1,
-    "id": 55
-  },
-  {
-    "type": "transporteur",
-    "actie": "lenen",
-    "station": "329 Prosper de Wit",
-    "aantal fietsen": 12,
-    "id": 80
-  },
-  {
-    "type": "gebruiker",
-    "actie": "lenen",
-    "station": "109 Kerkstraat",
-    "naam": "Gianna",
-    "achternaam": "Bosch",
-    "id": 54147
-  },
-  {
-    "type": "gebruiker",
-    "actie": "lenen",
-    "station": "136 Spoor Noord Skatebowl",
-    "naam": "Adeline",
-    "achternaam": "Meijer",
-    "id": 21892
-  },
-  {
-    "type": "gebruiker",
-    "actie": "lenen",
-    "station": "060 Grote Markt",
-    "naam": "Eliana",
-    "achternaam": "Schipper",
-    "id": 45528
-  },
-  {
-    "type": "gebruiker",
-    "actie": "lenen",
-    "station": "221 Havenhuis",
-    "naam": "Harper",
-    "achternaam": "Bos",
-    "id": 52227
-  },
-  {
-    "type": "transporteur",
-    "actie": "lenen",
-    "station": "302 Rozenkrans",
-    "aantal fietsen": 10,
-    "id": 10
-  },
-  {
-    "type": "transporteur",
-    "actie": "lenen",
-    "station": "298 Koornbloem",
-    "aantal fietsen": 18,
-    "id": 64
-  },
-  {
-    "type": "transporteur",
-    "actie": "plaatsen",
-    "station": "166 Schoenmarkt",
-    "aantal fietsen": 4,
-    "id": 54
-  },
-  {
-    "type": "gebruiker",
-    "actie": "lenen",
-    "station": "042 Harmonie",
-    "naam": "Aaliyah",
-    "achternaam": "De Vries",
-    "id": 12269
-  },
-  {
-    "type": "gebruiker",
-    "actie": "lenen",
-    "station": "231 den Antwerp",
-    "naam": "Emma",
-    "achternaam": "Hendriksen",
-    "id": 51912
-  },
-  {
-    "type": "gebruiker",
-    "actie": "lenen",
-    "station": "227 Amstel",
-    "naam": "Eliana",
-    "achternaam": "Peters",
-    "id": 49222
-  },
-  {
-    "type": "transporteur",
-    "actie": "lenen",
-    "station": "238 Ertbrugge",
-    "aantal fietsen": 8,
-    "id": 57
-  },
-  {
-    "type": "gebruiker",
-    "actie": "lenen",
-    "station": "171 Centraal station 3",
-    "naam": "Zoe",
-    "achternaam": "Van Leeuwen",
-    "id": 5283
-  },
-  {
-    "type": "gebruiker",
-    "actie": "lenen",
-    "station": "166 Schoenmarkt",
+    "station": "154 Terloplein",
     "naam": "Serenity",
-    "achternaam": "Van der Meer",
-    "id": 12978
+    "achternaam": "Van der Wal",
+    "id": 24395,
+    "fiets id": 543
   },
   {
     "type": "transporteur",
     "actie": "lenen",
-    "station": "069 Fonteinstraat",
-    "aantal fietsen": 7,
-    "id": 3
+    "station": "011 Roosevelt",
+    "aantal fietsen": 9,
+    "id": 30
   },
   {
     "type": "gebruiker",
     "actie": "lenen",
-    "station": "319 Schalienmolen",
-    "naam": "Savannah",
-    "achternaam": "Van der Heijden",
-    "id": 53244
+    "station": "146 Reinaartlaan",
+    "naam": "Audrey",
+    "achternaam": "Veenstra",
+    "id": 15861,
+    "fiets id": 5
   },
   {
     "type": "gebruiker",
     "actie": "lenen",
-    "station": "159 Den Bell 2",
-    "naam": "Adeline",
-    "achternaam": "Kramer",
-    "id": 42566
-  },
-  {
-    "type": "transporteur",
-    "actie": "lenen",
-    "station": "031 Wezenberg",
-    "aantal fietsen": 19,
-    "id": 23
+    "station": "337 Verenigde Naties",
+    "naam": "Eva",
+    "achternaam": "Koster",
+    "id": 41743,
+    "fiets id": 257
   },
   {
     "type": "gebruiker",
     "actie": "lenen",
-    "station": "034 MUKHA",
-    "naam": "Aubrey",
-    "achternaam": "Bosch",
-    "id": 18563
-  },
-  {
-    "type": "gebruiker",
-    "actie": "lenen",
-    "station": "248 De Schans",
-    "naam": "Bella",
-    "achternaam": "Huisman",
-    "id": 52837
+    "station": "064 Zuiderterras",
+    "naam": "Skylar",
+    "achternaam": "Scholten",
+    "id": 54910,
+    "fiets id": 732
   }
 ]

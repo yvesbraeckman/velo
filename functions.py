@@ -1,7 +1,7 @@
 import random
-import json
 import time
 from classes import *
+import pickle
 
 
 def available_bikes(stations, amount_of_stations=5):
@@ -121,8 +121,217 @@ def vul_stations(stations, aantal_fietsen=4200):
     return stations
 
 
-
-
-
 def get_html():
     return None
+
+
+def leen_fiets(stations, type_of_user, user, main):
+    print("---------------------------------------------")
+    print("|          zelf station ingeven: 1          |")
+    print("|     kiezen uit beschikbare stations: 2    |")
+    print("|                  quit: 3                  |")
+    print("---------------------------------------------")
+    operating_mode = int(input("kies modus: "))
+    while operating_mode not in [1, 2, 3]:
+        print("geen geldige modus")
+        operating_mode = int(input("kies modus"))
+    if type_of_user == "gebruiker":
+        match operating_mode:
+            case 1:
+                station = input("geef station op: ")
+                for element in stations:
+                    if element.naam == station:
+                        aantal_fietsen = element.capaciteit - element.sloten
+                        print(f"{aantal_fietsen} fietsen beschikbaar in {station}")
+                        if aantal_fietsen > 0:
+                            succes = user.neem_fiets(element)
+                            if not succes:
+                                print("je hebt al een fiets")
+                                main()
+                            else:
+                                print("fiets geleend")
+                                main()
+                        else:
+                            print("geen fietsen beschikbaar")
+                            leen_fiets(stations, "gebruiker", user, main)
+            case 2:
+                available = available_bikes(stations)
+                gekozen_station = int(input("kies station 1 - 5: "))
+                succes = user.neem_fiets(available[gekozen_station-1])
+                if succes:
+                    print("fiets geleend")
+                    main()
+                else:
+                    print("je hebt al een fiets")
+                    main()
+            case 3:
+                main()
+    elif type_of_user == "transporteur":
+        match operating_mode:
+            case 1:
+                station = input("geef station op: ")
+                for element in stations:
+                    if element.naam == station:
+                        aantal_fietsen = element.capaciteit - element.sloten
+                        print(f"{aantal_fietsen} fietsen beschikbaar in {station}")
+                        fietsen_nemen = int(input("Hoeveel fietsen uit station nemen?: "))
+                        if fietsen_nemen > aantal_fietsen:
+                            print("niet genoeg fietsen beschikbaar")
+                            leen_fiets(stations, "transporteur", user, main)
+                        else:
+                            user.neem_fietsen(element, fietsen_nemen)
+                            main()
+            case 2:
+                available = available_bikes(stations)
+                gekozen_station = int(input("kies station 1 - 5: "))
+                transporteur_station = available[gekozen_station - 1]
+                aantal_fietsen = transporteur_station.capaciteit - transporteur_station.sloten
+                print(f"{aantal_fietsen} fietsen beschikbaar in {transporteur_station.naam}")
+                fietsen_nemen = int(input("Hoeveel fietsen uit station nemen?: "))
+                if fietsen_nemen > aantal_fietsen:
+                    print("niet genoeg fietsen beschikbaar")
+                    leen_fiets(stations, "transporteur", user, main)
+                else:
+                    user.neem_fietsen(transporteur_station, fietsen_nemen)
+                    main()
+            case 3:
+                main()
+
+
+def zet_fiets_terug(stations, type_of_user, user, main):
+    print("---------------------------------------------")
+    print("|          zelf station ingeven: 1          |")
+    print("|     kiezen uit beschikbare stations: 2    |")
+    print("|                  quit: 3                  |")
+    print("---------------------------------------------")
+    operating_mode = int(input("kies modus: "))
+    while operating_mode not in [1, 2, 3]:
+        print("geen geldige modus")
+        operating_mode = int(input("kies modus"))
+    if type_of_user == "gebruiker":
+        match operating_mode:
+            case 1:
+                station = input("geef station op: ")
+                for element in stations:
+                    if element.naam == station:
+                        print(f"{element.sloten} plaatsen beschikbaar in {station}")
+                        if element.sloten > 0:
+                            succes = user.plaats_fiets(element)
+                            if not succes:
+                                print("je hebt geen fiets")
+                                main()
+                            else:
+                                print("fiets terug geplaatst")
+                                main()
+                        else:
+                            print("geen sloten beschikbaar")
+                            zet_fiets_terug(stations, "gebruiker", user, main)
+            case 2:
+                available = available_stations(stations)
+                gekozen_station = int(input("kies station 1 - 5: "))
+                succes = user.plaats_fiets(available[gekozen_station - 1])
+                if succes:
+                    print("fiets teruggeplaatst")
+                    main()
+                else:
+                    print("je hebt geen fiets")
+                    main()
+            case 3:
+                main()
+    elif type_of_user == "transporteur":
+        match operating_mode:
+            case 1:
+                station = input("geef station op: ")
+                for element in stations:
+                    if element.naam == station:
+                        print(f"{element.sloten} plaatsen beschikbaar in {station}")
+                        fietsen_plaatsen = int(input("Hoeveel fietsen in station zetten?: "))
+                        if fietsen_plaatsen > element.sloten:
+                            print("niet genoeg plaatsen beschikbaar")
+                            zet_fiets_terug(stations, "transporteur", user, main)
+                        else:
+                            user.plaats_fietsen(element, fietsen_plaatsen)
+                            print(f"{fietsen_plaatsen} fietsen in station {element.naam}")
+                            main()
+            case 2:
+                available = available_stations(stations)
+                gekozen_station = int(input("kies station 1 - 5: "))
+                transporteur_station = available[gekozen_station - 1]
+                print(f"{transporteur_station.sloten} plaatsen beschikbaar in {transporteur_station.naam}")
+                fietsen_plaatsen = int(input("Hoeveel fietsen in station zetten?: "))
+                if len(user.fietsen) >= fietsen_plaatsen:
+                    if fietsen_plaatsen > transporteur_station.sloten:
+                        print("niet genoeg plaatsen beschikbaar")
+                        zet_fiets_terug(stations, "transporteur", user, main)
+                    else:
+                        user.plaats_fietsen(transporteur_station, fietsen_plaatsen)
+                        main()
+                else:
+                    print(f"je hebt nog maar {len(user.fietsen)} beschikbaar")
+                    zet_fiets_terug(stations, "transporteur", user, main)
+            case 3:
+                main()
+
+
+def simulation_mode(restart, stations, main, users_par=None, transporters_par=None):
+    user_type = ["gebruiker", "gebruiker", "gebruiker", "gebruiker", "gebruiker", "gebruiker", "transporteur",
+                 "transporteur"]
+    opdracht_type = ["plaats", "leen"]
+    if restart:
+        users = random_user()
+        transporters = random_transporters()
+        try:
+            while True:
+                person = random.choice(user_type)
+                opdracht = random.choice(opdracht_type)
+                handeling_set = set()
+                handeling_set.add(person)
+                handeling_set.add(opdracht)
+                if handeling_set == {"gebruiker", "plaats"}:
+                    current_user = random.choice(users)
+                    current_user.neem_fiets(random.choice(stations))
+                elif handeling_set == {"gebruiker", "leen"}:
+                    current_user = random.choice(users)
+                    current_user.plaats_fiets(random.choice(stations))
+                elif handeling_set == {"transporteur", "plaats"}:
+                    current_user = random.choice(transporters)
+                    current_user.plaats_fietsen(random.choice(stations), random.randint(1, 20))
+                elif handeling_set == {"transporteur", "leen"}:
+                    current_user = random.choice(transporters)
+                    current_user.neem_fietsen(random.choice(stations), random.randint(1, 20))
+                time.sleep(0.5)
+        except KeyboardInterrupt:
+            data = [users, transporters, stations]
+            with open("pickle.dat", 'wb') as f:
+                pickle.dump(data, f)
+            log.dump_data()
+            main()
+    else:
+        users = users_par
+        transporters = transporters_par
+        try:
+            while True:
+                person = random.choice(user_type)
+                opdracht = random.choice(opdracht_type)
+                handeling_set = set()
+                handeling_set.add(person)
+                handeling_set.add(opdracht)
+                if handeling_set == {"gebruiker", "plaats"}:
+                    current_user = random.choice(users)
+                    current_user.neem_fiets(random.choice(stations))
+                elif handeling_set == {"gebruiker", "leen"}:
+                    current_user = random.choice(users)
+                    current_user.plaats_fiets(random.choice(stations))
+                elif handeling_set == {"transporteur", "plaats"}:
+                    current_user = random.choice(transporters)
+                    current_user.plaats_fietsen(random.choice(stations), random.randint(1, 20))
+                elif handeling_set == {"transporteur", "leen"}:
+                    current_user = random.choice(transporters)
+                    current_user.neem_fietsen(random.choice(stations), random.randint(1, 20))
+                time.sleep(0.5)
+        except KeyboardInterrupt:
+            data = [users, transporters, stations]
+            with open("pickle.dat", 'wb') as f:
+                pickle.dump(data, f)
+            log.dump_data()
+            main()

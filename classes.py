@@ -115,7 +115,7 @@ class Transporteur:
                 self.heeft_fiets = True
                 if succes == aantal_fietsen:
                     break
-        log.neem_fiets_transporteur(station, aantal_fietsen, self.gebruiker_id)
+        log.neem_fiets_transporteur(station, succes, self.gebruiker_id)
         print(f"{len(self.fietsen)} fietsen uit {station.naam} gehaald")
 
     def plaats_fietsen(self, station, aantal_fietsen):
@@ -129,7 +129,7 @@ class Transporteur:
                         break
             if len(self.fietsen) == 0:
                 self.heeft_fiets = False
-            log.plaats_fiets_transporteur(station, aantal_fietsen, self.gebruiker_id)
+            log.plaats_fiets_transporteur(station, succes, self.gebruiker_id)
         else:
             print("je hebt geen fiets")
 
