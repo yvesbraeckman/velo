@@ -2,6 +2,9 @@ import random
 import time
 from classes import *
 import pickle
+import yaml
+from jinja2 import Environment, FileSystemLoader
+import os
 
 
 def available_bikes(stations, amount_of_stations=5):
@@ -40,7 +43,7 @@ def available_stations(stations, amount_of_stations=5):
     return available
 
 
-def random_user(amount=55000):
+def random_user(amount=1000):
     """
     :param amount: aantal te genereren namen
     :return: Lijst met random namen
@@ -77,7 +80,7 @@ def random_user(amount=55000):
     return users
 
 
-def random_transporters(amount=100):
+def random_transporters(amount=10):
     transporters = []
     for i in range(amount):
         transporters.append(Transporteur(i))
@@ -121,8 +124,60 @@ def vul_stations(stations, aantal_fietsen=4200):
     return stations
 
 
-def get_html():
-    return None
+def get_html_users(data="logje.json"):
+    html_string = ""
+    template_env = Environment(loader=FileSystemLoader(searchpath='./'))
+    template = template_env.get_template("users.html")
+    with open(data) as f:
+        inhoud = json.load(f)
+        for interactie in inhoud:
+            if interactie["type"] == "gebruiker":
+                if interactie["actie"] == "lenen":
+                    html_string += '<tr class="red-row">'
+                else:
+                    html_string += '<tr class="green-row">'
+                html_string += f'<td>{interactie["type"]}</td>'
+                html_string += f'<td>{interactie["actie"]}</td>'
+                html_string += f'<td>{interactie["station"]}</td>'
+                html_string += f'<td>{interactie["naam"]}</td>'
+                html_string += f'<td>{interactie["achternaam"]}</td>'
+                html_string += f'<td>{interactie["id"]}</td>'
+                html_string += f'<td>{interactie["fiets id"]}</td>'
+                html_string += "</tr>"
+
+    with open("log_users.html", "w") as output_file:
+        output_file.write(
+            template.render(
+                rows=html_string
+            )
+        )
+
+
+def get_html_transporters(data="logje.json"):
+    html_string = ""
+    template_env = Environment(loader=FileSystemLoader(searchpath='./'))
+    template = template_env.get_template("transporters.html")
+    with open(data) as f:
+        inhoud = json.load(f)
+        for interactie in inhoud:
+            if interactie["type"] == "transporteur":
+                if interactie["actie"] == "lenen":
+                    html_string += '<tr class="red-row">'
+                else:
+                    html_string += '<tr class="green-row">'
+                html_string += f'<td>{interactie["type"]}</td>'
+                html_string += f'<td>{interactie["actie"]}</td>'
+                html_string += f'<td>{interactie["station"]}</td>'
+                html_string += f'<td>{interactie["aantal fietsen"]}</td>'
+                html_string += f'<td>{interactie["id"]}</td>'
+                html_string += "</tr>"
+
+    with open("log_transporters.html", "w") as output_file:
+        output_file.write(
+            template.render(
+                rows=html_string
+            )
+        )
 
 
 def leen_fiets(stations, type_of_user, user, main):
