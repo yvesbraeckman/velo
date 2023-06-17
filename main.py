@@ -13,26 +13,31 @@ def my_main():
             print("simulatie modus")
             sim_mode = int(input("1 voor verder gaan van vorige situatie, 2 voor opnieuw beginnen: "))
             if sim_mode == 2:
-                simulation_mode(True, stations, my_main)
+                speed = float(input("kies snelheid [0.0001, 100]: "))
+                simulation_mode(True, stations, my_main, speed)
             if sim_mode == 1:
                 # unpickle data
                 with open("pickle.dat", "rb") as f:
                     data = pickle.load(f)
-                simulation_mode(False, data[2], my_main, data[0], data[1])
+                speed = int(input("kies snelheid [0.0001, 100]: "))
+                simulation_mode(False, data[2], my_main, speed, data[0], data[1])
         else:
             print("geen geldige modus")
     else:
-        operating_mode = int(input("1 voor simulatie, 2 voor fiets lenen/terugplaatsen, 3 voor HTML,"
-                                   " 4 voor te quitten: "))
+        operating_mode = float(input("1 voor simulatie, 2 voor fiets lenen/terugplaatsen, 3 voor HTML,"
+                                   "4 voor te quitten: "))
         if operating_mode == 1:
             print("simulatie modus")
             sim_mode = int(input("1 voor verder gaan van vorige situatie, 2 voor opnieuw beginnen: "))
             if sim_mode == 2:
-                simulation_mode(True, stations, my_main)
+                speed = float(input("kies snelheid [0.0001, 100]: "))
+                simulation_mode(True, stations, my_main, speed)
             if sim_mode == 1:
+                # unpickle data
                 with open("pickle.dat", "rb") as f:
                     data = pickle.load(f)
-                simulation_mode(False, data[2], my_main, data[0], data[1])
+                speed = float(input("kies snelheid [0.0001, 100]: "))
+                simulation_mode(False, data[2], my_main, speed, data[0], data[1])
         elif operating_mode == 2:
             sim_mode = int(input("1 voor lenen, 2 voor terugplaatsen: "))
             if sim_mode == 1:

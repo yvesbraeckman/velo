@@ -273,13 +273,13 @@ def zet_fiets_terug(stations, type_of_user, user, main):
                 main()
 
 
-def simulation_mode(restart, stations, main, users_par=None, transporters_par=None):
+def simulation_mode(restart, stations, main, speed=0.5, users_par=None, transporters_par=None):
     user_type = ["gebruiker", "gebruiker", "gebruiker", "gebruiker", "gebruiker", "gebruiker", "transporteur",
                  "transporteur"]
     opdracht_type = ["plaats", "leen"]
     if restart:
-        users = random_user()
-        transporters = random_transporters()
+        users = random_user(100)
+        transporters = random_transporters(10)
         try:
             while True:
                 person = random.choice(user_type)
@@ -299,7 +299,7 @@ def simulation_mode(restart, stations, main, users_par=None, transporters_par=No
                 elif handeling_set == {"transporteur", "leen"}:
                     current_user = random.choice(transporters)
                     current_user.neem_fietsen(random.choice(stations), random.randint(1, 20))
-                time.sleep(0.5)
+                time.sleep(1/speed)
         except KeyboardInterrupt:
             data = [users, transporters, stations]
             with open("pickle.dat", 'wb') as f:
@@ -328,7 +328,7 @@ def simulation_mode(restart, stations, main, users_par=None, transporters_par=No
                 elif handeling_set == {"transporteur", "leen"}:
                     current_user = random.choice(transporters)
                     current_user.neem_fietsen(random.choice(stations), random.randint(1, 20))
-                time.sleep(0.5)
+                time.sleep(1/speed)
         except KeyboardInterrupt:
             data = [users, transporters, stations]
             with open("pickle.dat", 'wb') as f:

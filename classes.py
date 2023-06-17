@@ -80,6 +80,7 @@ class Gebruiker:
                     slot.verwijder_fiets()
                     station.sloten += 1
                     self.heeft_fiets = True
+                    print(f"fiets geleend uit {station.naam}")
                     log.neem_fiets_gebruiker(station, self.naam, self.voornaam, self.gebruiker_id, self.fiets.fiets_id)
                 return True
 
@@ -91,6 +92,7 @@ class Gebruiker:
                 log.plaats_fiets_gebruiker(station, self.naam, self.voornaam, self.gebruiker_id, self.fiets.fiets_id)
                 self.fiets = None
                 self.heeft_fiets = False
+                print(f"fiets teruggeplaatst in {station.naam}")
                 return True
         return False
 
@@ -106,32 +108,45 @@ class Transporteur:
 
     def neem_fietsen(self, station, aantal_fietsen):
         succes = 0
-        for slot in station.sloten_list:
-            if not slot.beschikbaar:
-                succes += 1
-                self.fietsen.append(slot.fiets)
-                slot.verwijder_fiets()
-                station.sloten += 1
-                self.heeft_fiets = True
-                if succes == aantal_fietsen:
-                    break
-        log.neem_fiets_transporteur(station, succes, self.gebruiker_id)
-        print(f"{len(self.fietsen)} fietsen uit {station.naam} gehaald")
+        if aantal_fietsen == 0:
+            print("Geef geldig aantal fietsen op")
+            return None
+        elif aantal_fietsen > station.capaciteit - station.sloten:
+            print("niet genoeg fietsen beschikbaar")
+        else:
+            for slot in station.sloten_list:
+                if not slot.beschikbaar:
+                    succes += 1
+                    self.fietsen.append(slot.fiets)
+                    slot.verwijder_fiets()
+                    station.sloten += 1
+                    self.heeft_fiets = True
+                    if succes == aantal_fietsen:
+                        break
+            log.neem_fiets_transporteur(station, succes, self.gebruiker_id)
+            print(f"{len(self.fietsen)} fietsen uit {station.naam} gehaald")
 
     def plaats_fietsen(self, station, aantal_fietsen):
         succes = 0
-        if self.heeft_fiets:
-            for fiets in self.fietsen:
-                if station.add_bike(fiets):
-                    succes += 1
-                    self.fietsen.pop()
-                    if succes == aantal_fietsen:
-                        break
-            if len(self.fietsen) == 0:
-                self.heeft_fiets = False
-            log.plaats_fiets_transporteur(station, succes, self.gebruiker_id)
+        if aantal_fietsen == 0:
+            print("Geef geldig aantal fietsen op")
+            return None
+        elif self.heeft_fiets:
+            if aantal_fietsen > len(self.fietsen):
+                print("niet genoeg fietsen")
+            else:
+                while station.sloten > 0:
+                    if station.add_bike(self.fietsen[-1]):
+                        succes += 1
+                        self.fietsen.pop()
+                        if succes == aantal_fietsen:
+                            break
+                if len(self.fietsen) == 0:
+                    self.heeft_fiets = False
+                print(f"{succes} fietsen in {station.naam} geplaatst")
+                log.plaats_fiets_transporteur(station, succes, self.gebruiker_id)
         else:
-            print("je hebt geen fiets")
+            print("je hebt geen fietsen om te plaatsen")
 
 
 class Log:
