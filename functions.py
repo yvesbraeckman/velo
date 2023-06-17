@@ -107,7 +107,7 @@ def maak_stations():
     return stations
 
 
-def vul_stations(stations, aantal_fietsen=4200):
+def vul_stations(stations, aantal_fietsen=2000):
     """
     :param stations: lijst met stations die voorzien moeten worden van fietsen
     :param aantal_fietsen: aantal fietsen te verdelen over de lijst van stations

@@ -53,8 +53,12 @@ def my_main():
                 if user_ == 2:
                     zet_fiets_terug(stations, "transporteur", transporteur_for_non_sim, my_main)
         elif operating_mode == 3:
-            get_html_users()
-            get_html_transporters()
+            if os.path.exists("./logje.json"):
+                get_html_users()
+                get_html_transporters()
+            else:
+                print("eerste simulatie uitvoeren")
+                my_main()
         elif operating_mode == 4:
             pass
         else:
