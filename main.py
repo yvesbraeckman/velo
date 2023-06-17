@@ -16,11 +16,14 @@ def my_main():
                 speed = float(input("kies snelheid [0.0001, 100]: "))
                 simulation_mode(True, stations, my_main, speed)
             if sim_mode == 1:
-                # unpickle data
-                with open("pickle.dat", "rb") as f:
-                    data = pickle.load(f)
-                speed = int(input("kies snelheid [0.0001, 100]: "))
-                simulation_mode(False, data[2], my_main, speed, data[0], data[1])
+                if os.path.exists("./pickle.dat"):
+                    # unpickle data
+                    with open("pickle.dat", "rb") as f:
+                        data = pickle.load(f)
+                    speed = int(input("kies snelheid [0.0001, 100]: "))
+                    simulation_mode(False, data[2], my_main, speed, data[0], data[1])
+                else:
+                    print("Eerst simulatie uitvoeren")
         else:
             print("geen geldige modus")
     else:
@@ -33,11 +36,14 @@ def my_main():
                 speed = float(input("kies snelheid [0.0001, 100]: "))
                 simulation_mode(True, stations, my_main, speed)
             if sim_mode == 1:
-                # unpickle data
-                with open("pickle.dat", "rb") as f:
-                    data = pickle.load(f)
-                speed = float(input("kies snelheid [0.0001, 100]: "))
-                simulation_mode(False, data[2], my_main, speed, data[0], data[1])
+                if os.path.exists("./pickle.dat"):
+                    # unpickle data
+                    with open("pickle.dat", "rb") as f:
+                        data = pickle.load(f)
+                    speed = float(input("kies snelheid [0.0001, 100]: "))
+                    simulation_mode(False, data[2], my_main, speed, data[0], data[1])
+                else:
+                    print("Eerst simulatie uitvoeren")
         elif operating_mode == 2:
             sim_mode = int(input("1 voor lenen, 2 voor terugplaatsen: "))
             if sim_mode == 1:
