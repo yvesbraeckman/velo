@@ -62,6 +62,7 @@ def my_main():
             if os.path.exists("./logje.json"):
                 get_html_users()
                 get_html_transporters()
+                my_main()
             else:
                 print("eerste simulatie uitvoeren")
                 my_main()
@@ -69,6 +70,7 @@ def my_main():
             pass
         else:
             print("geen geldige modus")
+            my_main()
 
 
 my_main()
